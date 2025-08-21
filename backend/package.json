@@ -1,0 +1,29 @@
+{
+  "name": "zoo-management",
+  "module": "index.ts",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev": "bun run --watch src/index.ts"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "@types/express": "^5.0.3",
+    "@types/http-status-codes": "^1.2.0"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.1",
+    "express": "^5.1.0",
+    "express-rate-limit": "^8.0.1",
+    "helmet": "^8.1.0",
+    "http-status-codes": "^2.3.0",
+    "mongoose": "^8.17.2",
+    "morgan": "^1.10.1",
+    "winston": "^3.17.0",
+    "zod": "^4.0.17"
+  }
+}
