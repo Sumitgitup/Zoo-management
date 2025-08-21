@@ -1,20 +1,31 @@
 import type { Request, Response, NextFunction } from "express";
 import { StatusCodes } from "http-status-codes";
-import { ZodSchema } from "zod/v3";
+import { z } from "zod";
 
 const validateInput =
-  (schema: ZodSchema<any>) =>
+  <T>(schema: z.ZodSchema<T>) =>
   (req: Request, res: Response, next: NextFunction) => {
-    const result = schema.safeParse(req.body);
-    if (!result.success) {
-      return res.status(StatusCodes.BAD_REQUEST).json({
+    try {
+      const result = schema.safeParse(req.body);
+      if (!result.success) {
+        return res.status(StatusCodes.BAD_REQUEST).json({
+          success: false,
+          message: "Validation failed",
+          errors: result.error.issues.map((issue) => ({
+            path: issue.path.join("."),
+            message: issue.message,
+            code: issue.code,
+          })),
+        });
+      }
+      req.body = result.data;
+      next();
+    } catch (error) {
+      return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
         success: false,
-        message: "Input validation failed",
-        error: result.error.issues[0]?.message,
+        message: "Validation middleware error",
       });
     }
-    req.body = result.data;
-    next();
   };
 
 export default validateInput;
