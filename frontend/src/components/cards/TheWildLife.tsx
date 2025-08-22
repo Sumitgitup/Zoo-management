@@ -84,7 +84,7 @@ export const TheWildLife = ({
     <div className="mx-auto max-w-sm px-4 py-20 font-sans antialiased md:max-w-6xl md:px-8 lg:px-12">
       <div className="relative grid grid-cols-1 gap-10 md:grid-cols-2 lg:gap-52">
         <div className="flex justify-center items-center">
-          <div className="relative w-80 h-96 perspective-1000">
+          <div className="relative w-72 sm:w-96 h-96 perspective-1000">
             {theWildLife.map((item, index) => {
               const cardProps = getCardProps(index);
               return (
@@ -115,7 +115,7 @@ export const TheWildLife = ({
           </div>
         </div>
 
-        <div className="flex flex-col justify-center py-4 space-y-8">
+        <div className="flex flex-col justify-center items-center md:items-start md:ml-5 text-center md:text-justify py-4 space-y-8">
           <AnimatePresence mode="wait">
             <motion.div
               key={active}
@@ -137,14 +137,14 @@ export const TheWildLife = ({
               }}
               className="space-y-4"
             >
-              <h2 className="text-4xl font-bold text-gray-900 dark:text-white">
+              <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white">
                 {theWildLife[active].type}
               </h2>
-              <p className="text-lg text-gray-600 dark:text-gray-400">
+              <p className="sm:text-lg text-gray-600 dark:text-gray-400">
                 {theWildLife[active].enclosure}
               </p>
               <motion.p
-                className="text-xl leading-relaxed text-gray-700 dark:text-gray-300 max-w-lg"
+                className="text-lg lg:text-xl leading-relaxed text-gray-700 dark:text-gray-300 max-w-lg"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.2, duration: 0.4 }}
