@@ -23,7 +23,7 @@ const validateResource =
       });
     }
 
-    res.locals.valitedData = result.data;
+    res.locals.validatedData = result.data;
 
     next();
   };

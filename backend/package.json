@@ -9,12 +9,14 @@
   "devDependencies": {
     "@types/bun": "latest",
     "@types/express": "^5.0.3",
-    "@types/http-status-codes": "^1.2.0"
+    "@types/http-status-codes": "^1.2.0",
+    "@types/multer": "^2.0.0"
   },
   "peerDependencies": {
     "typescript": "^5"
   },
   "dependencies": {
+    "cloudinary": "^2.7.0",
     "cors": "^2.8.5",
     "dotenv": "^17.2.1",
     "express": "^5.1.0",
@@ -23,6 +25,7 @@
     "http-status-codes": "^2.3.0",
     "mongoose": "^8.17.2",
     "morgan": "^1.10.1",
+    "multer": "^2.0.2",
     "winston": "^3.17.0",
     "zod": "^4.0.17"
   }

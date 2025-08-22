@@ -1,15 +1,31 @@
-import { z } from 'zod';
 import { Document } from 'mongoose';
+import { z } from 'zod';
+
+const emptyStringToUndefined = z.preprocess((val) => {
+  if (typeof val === 'string' && val === '') return undefined;
+  return val;
+}, z.any());
+
+// 1. Define a new schema for the enclosure details
+const enclosureSchema = z.object({
+  name: z.string().min(1, { message: 'Enclosure name is required' }),
+  type: z.enum(['Safari', 'Bird Sanctuary', 'Reptile House']),
+  location: z.string().optional(), // e.g., "Sector A, Row 3"
+});
 
 // 1. Define the base schema for all animal properties. This is the single source of truth.
 const animalBaseSchema = z.object({
   name: z.string().min(1, { message: 'Name is required' }),
   species: z.string().min(1, { message: 'Species is required' }),
-  date_of_birth: z.date().optional(),
-  gender: z.enum(['Male', 'Female']),
-  health_status: z.enum(['Healthy', 'Under Observation', 'Requires Attention']),
-  arrival_date: z.date().optional(),
+  date_of_birth: z.coerce.date(),
+  gender: emptyStringToUndefined.pipe(z.enum(['Male', 'Female'])),
+  health_status: emptyStringToUndefined.pipe(z.enum(['Healthy', 'Under Observation', 'Requires Attention']).optional()),
   description: z.string().optional(),
+  imageUrl: z.url().optional(),
+  arrival_date: z.coerce.date(),
+
+  // 2. Add the enclosure schema to the animal schema (making it optional)
+  enclosure: enclosureSchema.optional(),
 });
 
 

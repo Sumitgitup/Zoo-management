@@ -1,14 +1,45 @@
 import type { Request, Response } from 'express';
 import Animal from '../models/animal.model';
 import type { IAnimal } from '../types/animal';
+import { v2 as cloudinary } from 'cloudinary'
+
+
+const uploadToCloudinary = (fileBuffer: Buffer): Promise<string> => {
+  return new Promise((resolve, reject) => {
+    const uploadStream = cloudinary.uploader.upload_stream(
+      { resource_type: 'auto', folder: 'animals' },
+      (error, result) => {
+        // This callback is the key. We ensure it always rejects with a real Error.
+        if (error) {
+          return reject(new Error(error.message || 'Cloudinary upload failed'));
+        }
+        if (!result) {
+          return reject(new Error('Cloudinary upload returned no result.'));
+        }
+        resolve(result.secure_url);
+      }
+    );
+    // Handle stream errors as a backup
+    uploadStream.on('error', (err) => {
+      reject(new Error(`Upload stream error: ${err.message}`));
+    });
+    uploadStream.end(fileBuffer);
+  });
+};
+
 
 // Create a new animal
 // @route   POST /api/animals
 export const createAnimal = async (req: Request, res: Response) => {
   try {
-   
+    const { body } = res.locals.validatedData;
+    let imageUrl: string | undefined = undefined;
+
+    if (req.file) {
+      imageUrl = await uploadToCloudinary(req.file.buffer);
+    }
     // Create a new animal instance directly from the validated request body
-    const newAnimal: IAnimal = new Animal(req.body);
+    const newAnimal = new Animal({ ...body, imageUrl});
 
     // Save the new animal to the database
     const savedAnimal = await newAnimal.save();
@@ -16,8 +47,15 @@ export const createAnimal = async (req: Request, res: Response) => {
     // Respond with the created animal and a 201 status
     res.status(201).json(savedAnimal);
   } catch (error) {
-    // Handle potential errors
-    res.status(500).json({ message: 'Server error while creating animal', error });
+    // --- SOLUTION PART 2: Better Error Logging and Response ---
+    console.error('Detailed error creating animal:', error);
+
+    // This ensures you always get a useful JSON error message
+    const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
+    res.status(500).json({
+      message: 'Server error while creating animal.',
+      error: errorMessage,
+    });
   }
 };
 
@@ -52,20 +90,32 @@ export const getAnimalById = async (req: Request, res: Response) => {
 // @route   PUT /api/animals/:id
 export const updateAnimal = async (req: Request, res: Response) => {
   try {
-    const { id } = req.params;
-    
-    const updatedAnimal = await Animal.findByIdAndUpdate(id, req.body, {
-      new: true, // This option returns the document after it has been updated
-    });
+    const { params, body } = res.locals.validatedData;
+    const { id } = params;
+    let imageUrl: string | undefined = undefined;
 
+    if (req.file) {
+      imageUrl = await uploadToCloudinary(req.file.buffer);
+    }
+
+    const updateData = { ...body };
+    if (imageUrl) {
+      updateData.imageUrl = imageUrl;
+    }
+
+    const updatedAnimal = await Animal.findByIdAndUpdate(id, updateData, { new: true });
     if (!updatedAnimal) {
       return res.status(404).json({ message: 'Animal not found' });
     }
-
     res.status(200).json(updatedAnimal);
   } catch (error) {
-    res.status(500).json({ message: 'Server error while updating animal', error });
-  }
+        console.error('Detailed error updating animal:', error);
+        const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
+        res.status(500).json({
+            message: 'Server error while updating animal.',
+            error: errorMessage,
+        });
+    }
 };
 
 // Delete an animal by ID
