@@ -7,8 +7,8 @@ const validateResource =
   (req: Request, res: Response, next: NextFunction) => {
     const result = schema.safeParse({
       body: req.body,
-      // query: req.query,
-      // params: req.params,
+      query: req.query,
+      params: req.params,
     });
 
     if (!result.success) {
