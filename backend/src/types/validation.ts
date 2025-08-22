@@ -1,5 +1,6 @@
 import z from "zod";
 
+// validation for visitor
 export const createVisitorSchema = z.object({
   visitorId: z.string(),
   name: z.string().min(3).trim(),
@@ -13,6 +14,9 @@ export const createVisitorSchema = z.object({
   phone: z.string().optional(),
 });
 
+
 export const updateVisitorSchema = createVisitorSchema.partial();
 
 export type CreateVisitorSchema = z.infer<typeof createVisitorSchema>;
+
+

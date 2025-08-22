@@ -1,31 +1,31 @@
-import type { Request, Response, NextFunction } from "express";
-import { StatusCodes } from "http-status-codes";
-import { z } from "zod";
-
-const validateInput =
-  <T>(schema: z.ZodSchema<T>) =>
+import type { Request, Response, NextFunction } from 'express';
+import { StatusCodes } from 'http-status-codes';
+import { z } from 'zod';
+// The fix is to use 'z.ZodObject<any, any>' instead of 'AnyZodObject'
+const validateResource =
+  (schema: z.ZodObject<any, any>) =>
   (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const result = schema.safeParse(req.body);
-      if (!result.success) {
-        return res.status(StatusCodes.BAD_REQUEST).json({
-          success: false,
-          message: "Validation failed",
-          errors: result.error.issues.map((issue) => ({
-            path: issue.path.join("."),
-            message: issue.message,
-            code: issue.code,
-          })),
-        });
-      }
-      req.body = result.data;
-      next();
-    } catch (error) {
-      return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+    const result = schema.safeParse({
+      body: req.body,
+      query: req.query,
+      params: req.params,
+    });
+
+    if (!result.success) {
+      return res.status(StatusCodes.BAD_REQUEST).json({
         success: false,
-        message: "Validation middleware error",
+        message: 'Validation failed',
+        errors: result.error.issues.map((issue) => ({
+          path: issue.path.join('.'),
+          message: issue.message,
+          code: issue.code,
+        })),
       });
     }
+
+    res.locals.valitedData = result.data;
+
+    next();
   };
 
-export default validateInput;
+export default validateResource;
