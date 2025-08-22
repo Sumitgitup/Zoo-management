@@ -1,6 +1,6 @@
 import { Router } from "express";
 
-import animalRoutes from "./v1/animal.route";
+import animalRoutes from "./v1/animal-route";
 import visitorRoutes from "./v1/visitor-routes";
 
 const router = Router();

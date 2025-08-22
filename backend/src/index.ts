@@ -7,7 +7,9 @@ import apiRoutes from "./routes";
 import ServerConfig from "./config/server-config";
 
 const app: Express = express();
-// Connect to the database
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 app.use(express.json());
 app.use(morgan("dev"));

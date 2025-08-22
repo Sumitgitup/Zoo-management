@@ -1,5 +1,6 @@
 import z from "zod";
 
+// validation for visitor
 export const createVisitorSchema = z.object({
   name: z.string().min(3).trim(),
   email: z.email(),
@@ -10,6 +11,7 @@ export const createVisitorSchema = z.object({
     .optional(),
   phone: z.string().optional(),
 });
+
 
 export const updateVisitorSchema = createVisitorSchema.partial();
 

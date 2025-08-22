@@ -1,0 +1,30 @@
+import { Router } from "express";
+
+import {
+  createAnimal,
+  deleteAnimal,
+  getAnimalById,
+  getAnimals,
+  updateAnimal,
+} from "../../controllers/animal-controller";
+
+import validateInput from "../../middlewares/validate-input";
+import { createAnimalSchema, updateAnimalSchema } from "../../types/animal";
+import { uploadFile } from "../../middlewares/upload";
+
+const router = Router();
+
+// Route to get all animals and create a new animal
+router
+  .route("/")
+  .get(getAnimals)
+  .post(uploadFile("file"), validateInput(createAnimalSchema), createAnimal);
+
+// Route to get, update, and delete a single animal by its ID
+router
+  .route("/:id")
+  .get(getAnimalById)
+  .put(uploadFile("file"), validateInput(updateAnimalSchema), updateAnimal)
+  .delete(deleteAnimal);
+
+export default router;
