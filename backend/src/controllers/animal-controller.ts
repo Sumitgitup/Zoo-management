@@ -1,8 +1,8 @@
 import type { Request, Response } from 'express';
 import Animal from '../models/animal.model';
-import type { IAnimal } from '../types/animal.type';
+import type { IAnimal } from '../types/animal';
 
-// @desc    Create a new animal
+// Create a new animal
 // @route   POST /api/animals
 export const createAnimal = async (req: Request, res: Response) => {
   try {
@@ -21,7 +21,7 @@ export const createAnimal = async (req: Request, res: Response) => {
   }
 };
 
-// @desc    Get all animals
+// Get all animals
 // @route   GET /api/animals
 export const getAnimals = async (req: Request, res: Response) => {
   try {
@@ -32,7 +32,7 @@ export const getAnimals = async (req: Request, res: Response) => {
   }
 };
 
-// @desc    Get a single animal by ID
+// Get single animal by id
 // @route   GET /api/animals/:id
 export const getAnimalById = async (req: Request, res: Response) => {
   try {
@@ -48,7 +48,7 @@ export const getAnimalById = async (req: Request, res: Response) => {
   }
 };
 
-// @desc    Update an animal by ID
+// Update an animal by ID
 // @route   PUT /api/animals/:id
 export const updateAnimal = async (req: Request, res: Response) => {
   try {
@@ -68,7 +68,7 @@ export const updateAnimal = async (req: Request, res: Response) => {
   }
 };
 
-// @desc    Delete an animal by ID
+// Delete an animal by ID
 // @route   DELETE /api/animals/:id
 export const deleteAnimal = async (req: Request, res: Response) => {
   try {

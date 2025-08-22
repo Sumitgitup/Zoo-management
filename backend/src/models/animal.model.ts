@@ -1,7 +1,7 @@
 
 import { Schema, model } from 'mongoose';
 
-import type { IAnimal } from '../types/animal.type';
+import type { IAnimal } from '../types/animal';
 
 // 2. Create the Schema corresponding to the interface
 const animalSchema = new Schema<IAnimal>({
