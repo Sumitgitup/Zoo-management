@@ -17,7 +17,11 @@ function useMediaQuery(query: string): boolean {
   return matches;
 }
 
-function Header() {
+type HeaderProps = {
+  onHomeClick?: () => void;
+};
+
+function Header({ onHomeClick }: HeaderProps) {
   const [isOpen, setIsOpen] = useState(false);
   const isMobile = useMediaQuery("(max-width: 639px)");
   const mainLinks = [
@@ -34,20 +38,30 @@ function Header() {
   const drawerLinks = isMobile ? [...mainLinks, ...extraLinks] : extraLinks;
 
   return (
-    <header className="fixed top-0 right-0 left-0 z-100 bg-white">
-      <nav className="container mx-auto 2xl:px-20 px-5 py-5 relative">
-        <div className="flex justify-between items-center">
-          <a href="#" className="font-bold text-lg">
+    <header className="fixed top-0 right-0 left-0 z-100 bg-white font-[Poppins,sans-serif]">
+      <nav className="container mx-auto 2xl:px-20 px-5 py-5 relative border-b shadow-2xl">
+        <div
+          className="flex justify-between items-center"
+          onClick={onHomeClick}
+        >
+          <a href="#" className="font-bold text-lg lg:text-2xl">
             ZooLogo
           </a>
-          <ul className="hidden sm:flex gap-20">
+          <ul className="hidden sm:flex gap-10 md:gap-20 lg:text-lg">
             {mainLinks.map((link) => (
-              <li key={link.label}>
-                <a href={link.href}>{link.label}</a>
+              <li key={link.label} className="relative group">
+                <a
+                  href={link.href}
+                  onClick={link.label === "Home" ? onHomeClick : undefined}
+                  className="relative pb-1"
+                >
+                  {link.label}
+                  <span className="absolute left-0 -bottom-0 w-full h-0.5 bg-gray-600 scale-x-0 group-hover:scale-x-100 origin-center transition-transform duration-300"></span>
+                </a>
               </li>
             ))}
           </ul>
-          <button onClick={() => setIsOpen(true)}>
+          <button onClick={() => setIsOpen(true)} className="cursor-pointer">
             <FontAwesomeIcon icon={faBars} size="lg" />
           </button>
         </div>
@@ -65,12 +79,12 @@ function Header() {
           }`}
         >
           <div className="flex justify-between items-center p-5 border-b">
-            <h2 className="font-bold text-lg">Menu</h2>
+            <h2 className="font-bold lg:text-xl">Menu</h2>
             <button onClick={() => setIsOpen(false)}>
               <FontAwesomeIcon icon={faXmark} size="lg" />
             </button>
           </div>
-          <ul className="flex flex-col gap-4 p-5">
+          <ul className="flex flex-col gap-4 p-5 lg:text-lg">
             {drawerLinks.map((link) => (
               <li key={link.label}>
                 <a href={link.href}>{link.label}</a>
