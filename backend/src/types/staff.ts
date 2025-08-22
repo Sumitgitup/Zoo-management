@@ -7,7 +7,7 @@ const staffBaseSchema = z.object({
   employeeId: z.string().min(1, { message: 'Employee ID is required' }),
   firstName: z.string().min(1, { message: 'First name is required' }),
   lastName: z.string().min(1, { message: 'Last name is required' }),
-  email: z.string().email({ message: 'Invalid email address' }),
+  email: z.email({ message: 'Invalid email address' }),
   phone: z.string().min(1, { message: 'Phone number is required' }),
   role: z.enum(['Admin', 'Veterinarian', 'Caretaker', 'Volunteer']),
   department: z.enum(['Medical', 'Operations', 'Adoption']),
