@@ -5,7 +5,7 @@ import type { IAnimal } from '../types/animal';
 const animalSchema = new Schema<IAnimal>({
   name: { type: String, required: true },
   species: { type: String, required: true },
-  date_of_birth: { type: Date, required: true },
+  date_of_birth: { type: String, required: true },
   gender: { type: String, enum: ['Male', 'Female'], required: true },
   health_status: {
     type: String,
@@ -14,7 +14,7 @@ const animalSchema = new Schema<IAnimal>({
   },
   imageUrl: { type: String, required: false },
   description: { type: String, required: false },
-  arrival_date: { type: Date, default: Date.now },
+  arrival_date: { type: String, required:true },
 
   // --- ADDED ENCLOSURE OBJECT ---
   enclosure: {
@@ -28,3 +28,5 @@ const animalSchema = new Schema<IAnimal>({
 
 const Animal = model<IAnimal>('Animal', animalSchema);
 export default Animal;
+
+// name, species, status, arrivalDate, enclosure
