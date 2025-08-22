@@ -3,11 +3,6 @@ import type { IVisitor } from "../types/visitor";
 
 const visitorSchema = new Schema<IVisitor>(
   {
-    visitorId: {
-      type: String,
-      required: true,
-      unique: true,
-    },
     name: {
       type: String,
       required: true,

@@ -1,12 +1,11 @@
-import type { Request, Response } from 'express';
-import Animal from '../models/animal.model';
-import type { IAnimal } from '../types/animal.type';
+import type { Request, Response } from "express";
+import Animal from "../models/animal.model";
+import type { IAnimal } from "../types/animal.type";
 
 // @desc    Create a new animal
 // @route   POST /api/animals
 export const createAnimal = async (req: Request, res: Response) => {
   try {
-   
     // Create a new animal instance directly from the validated request body
     const newAnimal: IAnimal = new Animal(req.body);
 
@@ -17,7 +16,9 @@ export const createAnimal = async (req: Request, res: Response) => {
     res.status(201).json(savedAnimal);
   } catch (error) {
     // Handle potential errors
-    res.status(500).json({ message: 'Server error while creating animal', error });
+    res
+      .status(500)
+      .json({ message: "Server error while creating animal", error });
   }
 };
 
@@ -28,7 +29,9 @@ export const getAnimals = async (req: Request, res: Response) => {
     const animals = await Animal.find({});
     res.status(200).json(animals);
   } catch (error) {
-    res.status(500).json({ message: 'Server error while fetching animals', error });
+    res
+      .status(500)
+      .json({ message: "Server error while fetching animals", error });
   }
 };
 
@@ -39,12 +42,14 @@ export const getAnimalById = async (req: Request, res: Response) => {
     const animal = await Animal.findById(req.params.id);
 
     if (!animal) {
-      return res.status(404).json({ message: 'Animal not found' });
+      return res.status(404).json({ message: "Animal not found" });
     }
 
     res.status(200).json(animal);
   } catch (error) {
-    res.status(500).json({ message: 'Server error while fetching animal', error });
+    res
+      .status(500)
+      .json({ message: "Server error while fetching animal", error });
   }
 };
 
@@ -53,18 +58,20 @@ export const getAnimalById = async (req: Request, res: Response) => {
 export const updateAnimal = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-    
+
     const updatedAnimal = await Animal.findByIdAndUpdate(id, req.body, {
       new: true, // This option returns the document after it has been updated
     });
 
     if (!updatedAnimal) {
-      return res.status(404).json({ message: 'Animal not found' });
+      return res.status(404).json({ message: "Animal not found" });
     }
 
     res.status(200).json(updatedAnimal);
   } catch (error) {
-    res.status(500).json({ message: 'Server error while updating animal', error });
+    res
+      .status(500)
+      .json({ message: "Server error while updating animal", error });
   }
 };
 
@@ -76,11 +83,13 @@ export const deleteAnimal = async (req: Request, res: Response) => {
     const deletedAnimal = await Animal.findByIdAndDelete(id);
 
     if (!deletedAnimal) {
-      return res.status(404).json({ message: 'Animal not found' });
+      return res.status(404).json({ message: "Animal not found" });
     }
 
-    res.status(200).json({ message: 'Animal deleted successfully' });
+    res.status(200).json({ message: "Animal deleted successfully" });
   } catch (error) {
-    res.status(500).json({ message: 'Server error while deleting animal', error });
+    res
+      .status(500)
+      .json({ message: "Server error while deleting animal", error });
   }
 };

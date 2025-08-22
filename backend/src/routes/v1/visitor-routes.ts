@@ -24,6 +24,8 @@ router.patch(
   visitorController.updateVisitor
 );
 
-router.get("/search", visitorController.searchVisitor);
+router.delete("/:id", visitorController.deleteVisitor);
+// In considiration
+// router.get("/search", visitorController.searchVisitor);
 
 export default router;

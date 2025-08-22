@@ -1,11 +1,9 @@
 import z from "zod";
 
 export const createVisitorSchema = z.object({
-  visitorId: z.string(),
   name: z.string().min(3).trim(),
-  email: z.email().lowercase(),
+  email: z.email(),
   age: z.number().int().nonnegative(),
-  ageGroup: z.enum(["Adult", "Child"]).default("Adult").optional(),
   nationality: z
     .enum(["National", "International"])
     .default("National")
@@ -15,4 +13,16 @@ export const createVisitorSchema = z.object({
 
 export const updateVisitorSchema = createVisitorSchema.partial();
 
-export type CreateVisitorSchema = z.infer<typeof createVisitorSchema>;
+export type UpdateVisitorType = z.infer<typeof updateVisitorSchema>;
+
+export type CreateVisitorType = z.infer<typeof createVisitorSchema>;
+
+export interface GetVisitorQuery {
+  name?: string;
+  nationality?: string;
+  ageGroup?: string;
+  page?: string;
+  limit?: string;
+  sortBy?: string;
+  order?: "asc" | "desc";
+}
