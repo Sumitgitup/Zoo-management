@@ -22,7 +22,6 @@ export const createStaff = async (req: Request, res: Response) => {
 // @desc  Get all staff with filtering and pagination
 export const getStaff = async (req: Request, res: Response) => {
   try {
-
     // Get validated query parameters
     const { query } = res.locals.validatedData;
     const { page = 1, limit = 10, role, department } = query;
@@ -56,10 +55,6 @@ export const getStaff = async (req: Request, res: Response) => {
     res.status(500).json({ message: 'Server error while fetching staff', error });
   }
 };
-
-
-
- 
 
 
 // --- GET BY ID FIX ---

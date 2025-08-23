@@ -27,7 +27,8 @@ const validateResource =
       });
     }
 
-    // res.locals.validatedData = result.data;
+    res.locals.validatedData = result.data;
+   
 
     next();
   };
