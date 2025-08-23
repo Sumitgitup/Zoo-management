@@ -1,10 +1,12 @@
 import type { Request, Response, NextFunction } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import { z } from 'zod';
-// The fix is to use 'z.ZodObject<any, any>' instead of 'AnyZodObject'
+
+
 const validateResource =
   (schema: z.ZodObject<any, any>) =>
   (req: Request, res: Response, next: NextFunction) => {
+
     const result = schema.safeParse({
       body: req.body,
       query: req.query,
