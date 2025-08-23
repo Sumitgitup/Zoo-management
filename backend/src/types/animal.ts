@@ -24,6 +24,7 @@ const animalBaseSchema = z.object({
   ),
   description: z.string().optional(),
   imageUrl: z.url().optional(),
+  arrival_date:z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Invalid date format"),
 
   // 2. Add the enclosure schema to the animal schema (making it optional)
   enclosure: enclosureSchema.optional(),

@@ -30,18 +30,18 @@ const uploadToCloudinary = (fileBuffer: Buffer): Promise<UploadApiResponse> => {
 // @route   POST /api/animals
 export const createAnimal = async (req: Request, res: Response) => {
   try {
-    // const { body } = res.locals.validatedData;
-
+    const { body } = res.locals.validatedData;
+    console.log("inside the createRoute");
     let imageUrl: string | undefined = undefined;
 
     if (req.file) {
-      const result: UploadApiResponse = await uploadToCloudinary(
+      const result = await uploadToCloudinary(
         req.file.buffer
       );
       imageUrl = result.secure_url;
     }
     // Create a new animal instance directly from the validated request body
-    const newAnimal = new Animal({ ...req.body, imageUrl });
+    const newAnimal = new Animal({ ...body, imageUrl });
 
     // Save the new animal to the database
     const savedAnimal = await newAnimal.save();
