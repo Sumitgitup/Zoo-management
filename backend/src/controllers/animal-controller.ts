@@ -26,6 +26,7 @@ const uploadToCloudinary = (fileBuffer: Buffer): Promise<UploadApiResponse> => {
   });
 };
 
+
 // Create a new animal
 // @route   POST /api/animals
 export const createAnimal = async (req: Request, res: Response) => {
@@ -35,9 +36,7 @@ export const createAnimal = async (req: Request, res: Response) => {
     let imageUrl: string | undefined = undefined;
 
     if (req.file) {
-      const result = await uploadToCloudinary(
-        req.file.buffer
-      );
+      const result = await uploadToCloudinary(req.file.buffer);
       imageUrl = result.secure_url;
     }
     // Create a new animal instance directly from the validated request body
@@ -66,14 +65,39 @@ export const createAnimal = async (req: Request, res: Response) => {
 // @route   GET /api/animals
 export const getAnimals = async (req: Request, res: Response) => {
   try {
-    const animals = await Animal.find({});
-    res.status(200).json(animals);
+    const { query } = res.locals.validatedData;
+    const { page = 1, limit = 10, species, gender } = query; 
+    const filter: any = {};
+
+    if (species) {
+      filter.species = { $regex: species, $options: 'i' };
+    }
+    if (gender) {
+      filter.gender = gender;
+    }
+    const skip = (page - 1) * limit;
+
+    // Fetch the data and the total count in parallel for efficiency
+    const [animals, total] = await Promise.all([
+      Animal.find(filter).skip(skip).limit(limit),
+      Animal.countDocuments(filter),
+    ])
+
+    //Send the generated response
+    res.status(200).json({
+      data: animals,
+      pagination: {
+        total,
+        page,
+        limit,
+        totalPages: Math.ceil(total/limit),
+      }
+    })
   } catch (error) {
-    res
-      .status(500)
-      .json({ message: "Server error while fetching animals", error });
+    res.status(500).json({ message: 'Server error while fetching animals', error });
   }
-};
+}
+
 
 // Get single animal by id
 // @route   GET /api/animals/:id

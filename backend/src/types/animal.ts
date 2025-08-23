@@ -1,10 +1,20 @@
 import { Document } from "mongoose";
+
 import { z } from "zod";
 
 const emptyStringToUndefined = z.preprocess((val) => {
   if (typeof val === "string" && val === "") return undefined;
   return val;
 }, z.any());
+
+export const getAnimalsSchema = z.object({
+  query: z.object({
+    page: z.coerce.number().int().positive().optional(),
+    limit: z.coerce.number().int().positive().optional(),
+    species: z.coerce.string().optional(),
+    gender: z.enum(['Male', 'Female']).optional(),
+  })
+});
 
 // 1. Define a new schema for the enclosure details
 const enclosureSchema = z.object({
