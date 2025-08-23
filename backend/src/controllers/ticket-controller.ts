@@ -26,6 +26,7 @@ export const createTicket = async (
       entryTime: new Date(),
       issuedAt: new Date(),
       status: "Active",
+      expiresAt: new Date(Date.now() + 12 * 60 * 60 * 1000),
       exitTime: new Date(Date.now() + 24 * 60 * 60 * 1000),
     });
 

@@ -10,7 +10,7 @@ const visitorSchema = new Schema<IVisitor>(
       trim: true,
     },
     age: {
-      type: Number,
+      type: String,
       required: true,
       min: 0,
     },
@@ -29,7 +29,7 @@ const visitorSchema = new Schema<IVisitor>(
     },
     nationality: {
       type: String,
-      enum: ["National", "International"],
+      enum: ["Indian", "Foreigner"],
       default: "National",
       required: true,
     },
