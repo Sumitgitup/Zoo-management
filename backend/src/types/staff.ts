@@ -26,6 +26,15 @@ const staffBaseSchema = z.object({
   }),
 });
 
+export const getStaffSchema = z.object({
+  query: z.object({
+    page: z.coerce.number().int().positive().optional(),
+    limit: z.coerce.number().int().positive().optional(),
+    role: z.enum(['Admin', 'Veterinarian', 'Caretaker', 'Volunteer']).optional(),
+    department: z.enum(['Medical', 'Operations', 'Adoption']).optional(),
+  }),
+});
+
 // Infer the TypeScript type for the base staff object
 type IStaffBase = z.infer<typeof staffBaseSchema>;
 

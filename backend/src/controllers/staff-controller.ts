@@ -19,17 +19,48 @@ export const createStaff = async (req: Request, res: Response) => {
   }
 };
 
-// @desc    Get all staff
+// @desc  Get all staff with filtering and pagination
 export const getStaff = async (req: Request, res: Response) => {
   try {
-    const staff = await Staff.find({});
-    res.status(200).json(staff);
+
+    // Get validated query parameters
+    const { query } = res.locals.validatedData;
+    const { page = 1, limit = 10, role, department } = query;
+
+    // Build the filter object
+    const filter: any = {};
+    if (role) {
+      filter.role = role;
+    }
+    if (department) {
+      filter.department = department;
+    }
+
+    const skip = (page - 1) * limit;
+
+    const [staff, total] = await Promise.all([
+      Staff.find(filter).skip(skip).limit(limit),
+      Staff.countDocuments(filter),
+    ]);
+
+    res.status(200).json({
+      data: staff,
+      pagination: {
+        total,
+        page,
+        limit,
+        totalPages: Math.ceil(total / limit),
+      },
+    });
   } catch (error) {
-    res
-      .status(500)
-      .json({ message: "Server error while fetching staff", error });
+    res.status(500).json({ message: 'Server error while fetching staff', error });
   }
 };
+
+
+
+ 
+
 
 // --- GET BY ID FIX ---
 // @desc    Get a single staff member by employeeId
