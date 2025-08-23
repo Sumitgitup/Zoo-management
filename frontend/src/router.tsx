@@ -15,9 +15,9 @@ const AppRoutes = () => {
       <Route path="/enclosure/safari-zone" element={<SafariZone />} />
       <Route path="/enclosure/bird-sanctuary" element={<BirdSanctuary />} />
       <Route path="/enclosure/reptile-house" element={<ReptileHouse />} />
-
       {/* <Route path="*" element={<Error_page />} /> */}
     </Routes>
   );
 };
+
 export default AppRoutes;

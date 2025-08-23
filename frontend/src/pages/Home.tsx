@@ -3,6 +3,8 @@ import { motion } from "framer-motion";
 import Layout from "@/layouts/Layout";
 import { TheWildLife } from "@/components/cards/TheWildLife";
 import { TheWildLifeV2 } from "@/components/cards/TheWildLifeV2";
+import { useEffect } from "react";
+import api from "@/api/axiosInstance";
 
 const theWildLife = [
   {
@@ -35,6 +37,8 @@ const theWildLife = [
   },
 ];
 
+
+
 function Home() {
   const handleExplore = () => {
     const main = document.getElementById("main");
@@ -46,6 +50,13 @@ function Home() {
       });
     }
   };
+  useEffect(() => {
+    let data = fetch("http://localhost:5000/api/v1/visitors/").then(data=>data.json()).then(data=>console.log(data)).catch(error=>error)
+
+     api.get("visitors/")
+    .then(data=>console.log("Data from data 2",data))
+    
+}, [])
 
   return (
     <Layout>
