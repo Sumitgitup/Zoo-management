@@ -35,9 +35,7 @@ export const createAnimal = async (req: Request, res: Response) => {
     let imageUrl: string | undefined = undefined;
 
     if (req.file) {
-      const result = await uploadToCloudinary(
-        req.file.buffer
-      );
+      const result = await uploadToCloudinary(req.file.buffer);
       imageUrl = result.secure_url;
     }
     // Create a new animal instance directly from the validated request body

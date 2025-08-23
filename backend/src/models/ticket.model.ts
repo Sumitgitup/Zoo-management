@@ -16,7 +16,7 @@ const ticketSchema = new Schema<ITicket>(
     enclosureType: {
       type: String,
       required: true,
-      enum: ["Safari", "Regular", "Premium"],
+      enum: ["Safari", "Bird Sanctuary", "Reptile House"],
       index: true,
     },
 
@@ -68,7 +68,7 @@ const ticketSchema = new Schema<ITicket>(
     },
   },
   {
-    timestamps: true, // Automatically adds createdAt and updatedAt
+    timestamps: true,
     collection: "tickets",
   }
 );

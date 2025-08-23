@@ -2,7 +2,7 @@ import { Document } from "mongoose";
 
 export interface IVisitor extends Document {
   name: string;
-  age: number;
+  age: string;
   email: string;
   nationality: string;
   ageGroup: string;

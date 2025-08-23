@@ -23,7 +23,7 @@ export class VisitorController {
       const { name, age, email, nationality, phone } = req.body;
 
       let ageGroup = "Adult";
-      if (age < 12) ageGroup = "Child";
+      if (parseInt(age) < 18) ageGroup = "Child";
 
       const newVisitor = new Visitor({
         name,
@@ -153,7 +153,11 @@ export class VisitorController {
         {
           ...req.body,
           updatedAt: new Date(),
-          ageGroup: req.body.age ? (req.body.age < 12 ? "Child" : "Adult") : "",
+          ageGroup: req.body.age
+            ? parseInt(req.body.age) < 12
+              ? "Child"
+              : "Adult"
+            : "",
         },
         {
           new: true,
