@@ -5,6 +5,7 @@ import Enclosure from "./pages/Enclosure";
 import SafariZone from "./pages/eclosure-folder/SafariZone";
 import BirdSanctuary from "./pages/eclosure-folder/BirdSanctuary";
 import ReptileHouse from "./pages/eclosure-folder/ReptileHouse";
+import Dashboard from "./pages/Admin/Dashboard";
 
 const AppRoutes = () => {
   return (
@@ -15,6 +16,7 @@ const AppRoutes = () => {
       <Route path="/enclosure/safari-zone" element={<SafariZone />} />
       <Route path="/enclosure/bird-sanctuary" element={<BirdSanctuary />} />
       <Route path="/enclosure/reptile-house" element={<ReptileHouse />} />
+      <Route path="/admin/dashboard" element={<Dashboard />} />
       {/* <Route path="*" element={<Error_page />} /> */}
     </Routes>
   );
