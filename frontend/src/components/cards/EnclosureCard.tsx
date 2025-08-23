@@ -1,12 +1,15 @@
 "use client";
 
+import { useNavigate } from "react-router-dom";
 import { CardBody, CardContainer, CardItem } from "../ui/3d-card";
 
 type EnclosureProps = {
   enclosureData: { title: string; description: string };
+  routeLink: string;
 };
 
-export function EnclosureCard({ enclosureData }: EnclosureProps) {
+export function EnclosureCard({ enclosureData, routeLink }: EnclosureProps) {
+  const navigate = useNavigate();
   return (
     <CardContainer className="inter-var">
       <CardBody className="bg-gray-50 relative group/card  dark:hover:shadow-2xl dark:hover:shadow-emerald-500/[0.1] dark:bg-black dark:border-white/[0.2] border-black/[0.1] w-auto sm:w-[30rem] h-auto rounded-xl p-6 border">
@@ -34,14 +37,19 @@ export function EnclosureCard({ enclosureData }: EnclosureProps) {
             alt="thumbnail"
           />
         </CardItem>
-        <div className="flex justify-center items-center mt-20">
-          <CardItem
-            translateZ={20}
-            as="button"
-            className="px-4 py-2 rounded-xl bg-black dark:bg-white dark:text-black text-white text-xs font-bold"
+        <div className="flex justify-center items-center mt-10">
+          <button
+            onClick={() => navigate(`/enclosure/${routeLink}`)}
+            className="w-full cursor-pointer"
           >
-            Check Out
-          </CardItem>
+            <CardItem
+              translateZ={20}
+              as="button"
+              className="px-4 py-2 rounded-xl bg-black dark:bg-white dark:text-black text-white text-xs font-bold cursor-pointer"
+            >
+              Check Out
+            </CardItem>
+          </button>
         </div>
       </CardBody>
     </CardContainer>

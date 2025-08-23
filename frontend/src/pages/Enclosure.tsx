@@ -39,7 +39,10 @@ function Enclosure() {
 
           <div className="flex flex-col lg:flex-row justify-around items-center lg:items-start my-36">
             <div>
-              <EnclosureCard enclosureData={enclosureData.safari} />
+              <EnclosureCard
+                enclosureData={enclosureData.safari}
+                routeLink="safari-zone"
+              />
             </div>
             <div className="px-5 ml-10 mt-10 lg:mt-0 w-auto md:w-md flex flex-col justify-between items-start gap-5">
               <h2 className="text-lg font-bold">Safari Zone</h2>
@@ -55,7 +58,10 @@ function Enclosure() {
           </div>
           <div className="flex flex-col lg:flex-row-reverse justify-around items-center lg:items-start my-36">
             <div>
-              <EnclosureCard enclosureData={enclosureData.birdSanctuary} />
+              <EnclosureCard
+                enclosureData={enclosureData.birdSanctuary}
+                routeLink="bird-sanctuary"
+              />
             </div>
             <div className="px-5 ml-10 mt-10 lg:mt-5 w-auto md:w-md flex flex-col justify-between items-start gap-5">
               <h2 className="text-lg font-bold">Bird Sanctuary</h2>
@@ -71,7 +77,10 @@ function Enclosure() {
           </div>
           <div className="flex flex-col lg:flex-row justify-around items-center lg:items-start my-36">
             <div>
-              <EnclosureCard enclosureData={enclosureData.reptileHouse} />
+              <EnclosureCard
+                enclosureData={enclosureData.reptileHouse}
+                routeLink="reptile-house"
+              />
             </div>
             <div className="px-5 ml-10 mt-10 lg:mt-0 w-auto md:w-md flex flex-col justify-between items-start gap-5">
               <h2 className="text-lg font-bold">Reptile House</h2>
