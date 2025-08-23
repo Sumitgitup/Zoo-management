@@ -10,7 +10,6 @@ import logger from "../utils/logger";
 import { isValidObjectId } from "mongoose";
 import { BadRequestError } from "../errors/BadRequest-error";
 import { NotFoundError } from "../errors/NotFound-error";
-import { success } from "zod";
 
 export class VisitorController {
   //////////////

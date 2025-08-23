@@ -1,21 +1,16 @@
+// App.tsx
+import { BrowserRouter as Router } from "react-router-dom";
 import "./App.css";
-import Home from "./pages/Home";
+import AppRoutes from "./router";
+import { ScrollToTop } from "./components/common/ScrollToTop";
 
 function App() {
-  //Home
-  //Animasl
-  //Enclosure
-  //Contact
-
-  //Admin Pannel
-  //Pricing
-  //Help-Line
-
   return (
     <>
-      <div>
-        <Home />
-      </div>
+      <Router>
+        <ScrollToTop />
+        <AppRoutes />
+      </Router>
     </>
   );
 }
