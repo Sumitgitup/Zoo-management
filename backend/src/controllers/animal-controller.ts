@@ -66,7 +66,7 @@ export const createAnimal = async (req: Request, res: Response) => {
 export const getAnimals = async (req: Request, res: Response) => {
   try {
     const { query } = res.locals.validatedData;
-    const { page = 1, limit = 10, species, gender } = query; 
+    const { page = "1", limit = "10", species, gender } = query; 
     const filter: any = {};
 
     if (species) {
