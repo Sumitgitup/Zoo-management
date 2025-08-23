@@ -8,12 +8,12 @@ import {
   deleteStaff,
 } from '../../controllers/staff-controller';
 import validateResource from '../../middlewares/validate-input'; // Assuming you created this
-import { createStaffSchema, updateStaffSchema } from '../../types/staff';
+import { createStaffSchema, getStaffSchema, updateStaffSchema } from '../../types/staff';
 
 const router = Router();
 
 router.route('/')
-  .get(getStaff)
+  .get(validateResource(getStaffSchema), getStaff)
   .post(validateResource(createStaffSchema), createStaff);
 
 router.route('/:id')

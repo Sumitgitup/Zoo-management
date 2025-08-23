@@ -9,7 +9,7 @@ import {
 } from "../../controllers/animal-controller";
 
 import validateInput from "../../middlewares/validate-input";
-import { createAnimalSchema, updateAnimalSchema } from "../../types/animal";
+import { createAnimalSchema, getAnimalsSchema, updateAnimalSchema } from "../../types/animal";
 import { uploadFile } from "../../middlewares/upload";
 
 const router = Router();
@@ -17,7 +17,7 @@ const router = Router();
 // Route to get all animals and create a new animal
 router
   .route("/")
-  .get(getAnimals)
+  .get(validateInput(getAnimalsSchema), getAnimals)
   .post(uploadFile("file"), validateInput(createAnimalSchema), createAnimal);
 
 // Route to get, update, and delete a single animal by its ID

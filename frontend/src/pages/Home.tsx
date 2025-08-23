@@ -1,9 +1,10 @@
+// pages/Home.tsx
 import { motion } from "framer-motion";
-import Header from "@/components/common/Header";
-import Footer from "@/components/common/Footer";
+import Layout from "@/layouts/Layout";
 import { TheWildLife } from "@/components/cards/TheWildLife";
 import { TheWildLifeV2 } from "@/components/cards/TheWildLifeV2";
-import { useState } from "react";
+import { useEffect } from "react";
+import api from "@/api/axiosInstance";
 
 const theWildLife = [
   {
@@ -36,85 +37,88 @@ const theWildLife = [
   },
 ];
 
+
+
 function Home() {
-  const [isExplored, setIsExplored] = useState(false);
-
   const handleExplore = () => {
-    setIsExplored(true);
-  };
+    const main = document.getElementById("main");
 
-  const handleBackToHero = () => setIsExplored(false);
+    if (main) {
+      main.scrollIntoView({
+        behavior: "smooth", // smooth scroll
+        block: "start", // align to the top
+      });
+    }
+  };
+  useEffect(() => {
+    let data = fetch("http://localhost:5000/api/v1/visitors/").then(data=>data.json()).then(data=>console.log(data)).catch(error=>error)
+
+     api.get("visitors/")
+    .then(data=>console.log("Data from data 2",data))
+    
+}, [])
 
   return (
-    <div>
-      <Header onHomeClick={handleBackToHero} />
-      {!isExplored && (
-        <section id="Hero">
-          <div>
-            <div
-              className={`${
-                !isExplored ? "fixed inset-0" : "relative"
-              }  h-screen w-full overflow-hidden`}
+    <Layout>
+      <section id="Hero">
+        <div className="inset-0 h-screen w-full overflow-hidden">
+          <video
+            src="/banner.mp4"
+            autoPlay
+            loop
+            muted
+            className="absolute top-0 left-0 w-full h-full object-cover"
+          />
+          <div className="relative z-10 my-50 flex flex-col justify-end-safe items-center h-1/2 text-center text-white px-4">
+            <motion.h1
+              className="text-3xl sm:text-4xl md:text-6xl font-bold mb-4"
+              initial={{ y: -50, opacity: 0 }}
+              animate={{ y: 0, opacity: 0.5 }}
+              transition={{ duration: 1 }}
             >
-              <video
-                src="/banner.mp4"
-                autoPlay
-                loop
-                muted
-                className="absolute top-0 left-0 w-full h-full object-cover"
-              />
-              <div className="relative z-10 my-50 flex flex-col justify-end-safe items-center h-1/2 text-center text-white px-4">
-                <motion.h1
-                  className="text-3xl sm:text-4xl md:text-6xl font-bold mb-4"
-                  initial={{ y: -50, opacity: 0 }}
-                  animate={{ y: 0, opacity: 0.5 }}
-                  transition={{ duration: 1 }}
-                >
-                  Welcome to Wildlife Zoo!
-                </motion.h1>
-                <motion.p
-                  className="text-sm sm:text-lg md:text-xl mb-6"
-                  initial={{ y: 20, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  transition={{ delay: 0.5, duration: 1 }}
-                >
-                  Explore animals, habitats, and adventures!
-                </motion.p>
-                <motion.button
-                  className="px-3 md:px-4 py-2 md:py-3 bg-green-600 text-sm md:text-inherit rounded-lg hover:bg-green-700 "
-                  whileHover={{ scale: 1.1 }}
-                  whileTap={{ scale: 0.95 }}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 1 }}
-                  onClick={handleExplore}
-                >
-                  Explore Now
-                </motion.button>
-              </div>
-            </div>
+              Welcome to Wildlife Zoo!
+            </motion.h1>
+            <motion.p
+              className="text-sm sm:text-lg md:text-xl mb-6"
+              initial={{ y: 20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ delay: 0.5, duration: 1 }}
+            >
+              Explore animals, habitats, and adventures!
+            </motion.p>
+            <motion.button
+              className="px-3 md:px-4 py-2 md:py-3 bg-green-600 text-sm md:text-inherit rounded-lg hover:bg-green-700"
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.95 }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 1 }}
+              onClick={handleExplore}
+            >
+              Explore Now
+            </motion.button>
           </div>
-        </section>
-      )}
-      {isExplored && (
-        <section>
-          <div className="container mx-auto border-t my-10">
-            <div className="  text-center mt-20">
-              <h1 className="text-2xl md:text-3xl font-bold">The Wildlife</h1>
-              <p className="text-sm md:text-base">
-                Discover amazing animals from around the world in their natural
-                habitats
-              </p>
-            </div>
-            <TheWildLife theWildLife={theWildLife} autoplay />
-            <TheWildLifeV2 theWildLife={theWildLife} autoplay />
-            <TheWildLife theWildLife={theWildLife} autoplay />
-            <TheWildLifeV2 theWildLife={theWildLife} autoplay />
+        </div>
+      </section>
+
+      <section id="main">
+        <div className="container mx-auto overflow-hidden px-5">
+          <div className="text-center mt-20 mb-10">
+            <h1 className="text-2xl md:text-3xl font-bold mb-5">
+              The Wildlife
+            </h1>
+            <p className="text-sm md:text-base">
+              Discover amazing animals from around the world in their natural
+              habitats
+            </p>
           </div>
-          <Footer />
-        </section>
-      )}
-    </div>
+          <TheWildLife theWildLife={theWildLife} autoplay />
+          <TheWildLifeV2 theWildLife={theWildLife} autoplay />
+          <TheWildLife theWildLife={theWildLife} autoplay />
+          <TheWildLifeV2 theWildLife={theWildLife} autoplay />
+        </div>
+      </section>
+    </Layout>
   );
 }
 
