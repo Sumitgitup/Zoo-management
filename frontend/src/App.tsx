@@ -2,16 +2,17 @@
 import { BrowserRouter as Router } from "react-router-dom";
 import "./App.css";
 import AppRoutes from "./router";
-import { ScrollToTop } from "./components/common/ScrollToTop";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
+const queryClient = new QueryClient();
 
 function App() {
   return (
-    <>
-      <Router>
-        <ScrollToTop />
+    <Router>
+      <QueryClientProvider client={queryClient}>
         <AppRoutes />
-      </Router>
-    </>
+      </QueryClientProvider>
+    </Router>
   );
 }
 
