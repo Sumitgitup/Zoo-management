@@ -45,8 +45,10 @@ export const getStaffSchema = z.object({
   query: z.object({
     page: z.coerce.number().int().positive().optional(),
     limit: z.coerce.number().int().positive().optional(),
-    role: z.enum(['Admin', 'Veterinarian', 'Caretaker', 'Volunteer']).optional(),
-    department: z.enum(['Medical', 'Operations', 'Adoption']).optional(),
+    role: z
+      .enum(["Admin", "Veterinarian", "Caretaker", "Volunteer"])
+      .optional(),
+    department: z.enum(["Medical", "Operations", "Adoption"]).optional(),
   }),
 });
 

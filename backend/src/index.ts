@@ -22,6 +22,5 @@ app.get("/api/v1/health", (req: Request, res: Response) => {
 app.use("/api", apiRoutes);
 
 app.listen(ServerConfig.PORT, async () => {
-  console.log(`✅ Server is running on http://localhost:${ServerConfig.PORT}`);
   await connectDB();
 });

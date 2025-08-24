@@ -26,7 +26,6 @@ const uploadToCloudinary = (fileBuffer: Buffer): Promise<UploadApiResponse> => {
   });
 };
 
-
 // Create a new animal
 // @route   POST /api/animals
 export const createAnimal = async (req: Request, res: Response) => {
@@ -66,11 +65,11 @@ export const createAnimal = async (req: Request, res: Response) => {
 export const getAnimals = async (req: Request, res: Response) => {
   try {
     const { query } = res.locals.validatedData;
-    const { page = "1", limit = "10", species, gender } = query; 
+    const { page = "1", limit = "10", species, gender } = query;
     const filter: any = {};
 
     if (species) {
-      filter.species = { $regex: species, $options: 'i' };
+      filter.species = { $regex: species, $options: "i" };
     }
     if (gender) {
       filter.gender = gender;
@@ -81,7 +80,7 @@ export const getAnimals = async (req: Request, res: Response) => {
     const [animals, total] = await Promise.all([
       Animal.find(filter).skip(skip).limit(limit),
       Animal.countDocuments(filter),
-    ])
+    ]);
 
     //Send the generated response
     res.status(200).json({
@@ -90,14 +89,15 @@ export const getAnimals = async (req: Request, res: Response) => {
         total,
         page,
         limit,
-        totalPages: Math.ceil(total/limit),
-      }
-    })
+        totalPages: Math.ceil(total / limit),
+      },
+    });
   } catch (error) {
-    res.status(500).json({ message: 'Server error while fetching animals', error });
+    res
+      .status(500)
+      .json({ message: "Server error while fetching animals", error });
   }
-}
-
+};
 
 // Get single animal by id
 // @route   GET /api/animals/:id

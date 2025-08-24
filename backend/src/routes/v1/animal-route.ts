@@ -9,8 +9,14 @@ import {
 } from "../../controllers/animal-controller";
 
 import validateInput from "../../middlewares/validate-input";
-import { createAnimalSchema, getAnimalsSchema, updateAnimalSchema } from "../../types/animal";
+import {
+  createAnimalSchema,
+  getAnimalsSchema,
+  updateAnimalSchema,
+} from "../../types/animal";
 import { uploadFile } from "../../middlewares/upload";
+import { authenticateToken } from "../../middlewares/authenticateToken";
+import { authorize } from "../../middlewares/authorize";
 
 const router = Router();
 
