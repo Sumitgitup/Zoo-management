@@ -6,16 +6,19 @@ const enclosureData = {
     title: "Safari Zone",
     description:
       "Step into the wild where adventure begins and nature comes alive.",
+    src: "https://www.corbettnationalparkindia.in/assets/images/tourpackages/jungle-safari-tour-package2-new.webp",
   },
   birdSanctuary: {
     title: "Bird Sanctuary",
     description:
       "A peaceful haven to observe and enjoy diverse birds in their natural habitat.",
+    src: "https://s7ap1.scene7.com/is/image/incredibleindia/kumarakom-bird-sanctuary-kumarakom-kerala-5-attr-hero?qlt=82&ts=1727367820912",
   },
   reptileHouse: {
     title: "Reptile House",
     description:
       "Explore fascinating reptiles in lifelike habitats, from snakes to turtles.",
+    src: "https://a-z-animals.com/media/2022/06/boelens-python-picture-id522727888.jpg",
   },
 };
 

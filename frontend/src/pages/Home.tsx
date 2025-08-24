@@ -3,60 +3,233 @@ import { motion } from "framer-motion";
 import Layout from "@/layouts/Layout";
 import { TheWildLife } from "@/components/cards/TheWildLife";
 import { TheWildLifeV2 } from "@/components/cards/TheWildLifeV2";
-import { useEffect } from "react";
-import api from "@/api/axiosInstance";
+import { useEffect, useState } from "react";
+import { fetchAnimals } from "@/api/animalsApi";
 
-const theWildLife = [
-  {
-    description:
-      "The attention to detail and innovative features have completely transformed our workflow. This is exactly what we've been looking for.",
-    type: "Mammals",
-    enclosure: "Product Manager at TechFlow",
-    src: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSiRyyOVz9_EJPhASjdmh6RA8Eye4dIhhtjRw&s",
-  },
-  {
-    description:
-      "Implementation was seamless and the results exceeded our expectations. The platform's flexibility is remarkable.",
-    type: "Mammals",
-    enclosure: "CTO at InnovateSphere",
-    src: "https://preview.redd.it/wpslf6wpt1901.jpg?width=1080&crop=smart&auto=webp&s=bc8f89a0cae47cec661fc1ae0c0d8ecfe185941e",
-  },
-  {
-    description:
-      "This solution has significantly improved our team's productivity. The intuitive interface makes complex tasks simple.",
-    type: "Mammals",
-    enclosure: "Operations Director at CloudScale",
-    src: "https://bear.org/wp-content/uploads/2023/03/Griz-family-danger-ahead-1024x701.jpg",
-  },
-  {
-    description:
-      "Outstanding support and robust features. It's rare to find a product that delivers on all its promises.",
-    type: "Mammals",
-    enclosure: "Engineering Lead at DataPro",
-    src: "https://outforia.com/wp-content/uploads/2022/11/are-birds-mammals-1122.jpg",
-  },
-];
+// Define the Animal interface based on your API response
+interface Animal {
+  _id: string;
+  name: string;
+  species: string;
+  date_of_birth: string;
+  gender: string;
+  health_status: string;
+  imageUrl: string;
+  description?: string;
+  arrival_date: string;
+  enclosure?: {
+    name: string;
+    type: string;
+    location: string;
+  };
+}
 
+// Transform API animal data to match your component's expected format
+const transformAnimalData = (animals: Animal[]) => {
+  return animals.map((animal) => ({
+    description:
+      animal.description ||
+      `Meet ${
+        animal.name
+      }, a magnificent ${animal.species.trim()}. This ${animal.gender.toLowerCase()} is in ${animal.health_status.toLowerCase()} condition and arrived on ${new Date(
+        animal.arrival_date
+      ).toLocaleDateString()}.`,
+    type: animal.species.trim(),
+    enclosure:
+      animal.enclosure?.name ||
+      animal.enclosure?.location ||
+      `${animal.species.trim()} Habitat`,
+    src: animal.imageUrl,
+    animalName: animal.name,
+    gender: animal.gender,
+    healthStatus: animal.health_status,
+  }));
+};
 
+// Group animals by species
+const groupAnimalsBySpecies = (animals: any[]) => {
+  const grouped = animals.reduce((acc, animal) => {
+    const species = animal.type;
+    if (!acc[species]) {
+      acc[species] = [];
+    }
+    acc[species].push(animal);
+    return acc;
+  }, {} as Record<string, any[]>);
+
+  return grouped;
+};
 
 function Home() {
+  const [animalData, setAnimalData] = useState<any[]>([]);
+  const [groupedAnimals, setGroupedAnimals] = useState<Record<string, any[]>>(
+    {}
+  );
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
   const handleExplore = () => {
     const main = document.getElementById("main");
 
     if (main) {
       main.scrollIntoView({
-        behavior: "smooth", // smooth scroll
-        block: "start", // align to the top
+        behavior: "smooth",
+        block: "start",
       });
     }
   };
-  useEffect(() => {
-    let data = fetch("http://localhost:5000/api/v1/visitors/").then(data=>data.json()).then(data=>console.log(data)).catch(error=>error)
 
-     api.get("visitors/")
-    .then(data=>console.log("Data from data 2",data))
-    
-}, [])
+  useEffect(() => {
+    const loadAnimals = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+
+        // Fetch animals with optional query parameters
+        const animals = await fetchAnimals({
+          limit: 20, // Increased limit to get more variety
+          page: 1,
+        });
+
+        console.log("Fetched animals:", animals);
+
+        // Check if animals is an array and has data
+        if (Array.isArray(animals) && animals.length > 0) {
+          // Transform the API data to match your component format
+          const transformedData = transformAnimalData(animals);
+          setAnimalData(transformedData);
+
+          // Group animals by species
+          const grouped = groupAnimalsBySpecies(transformedData);
+          setGroupedAnimals(grouped);
+
+          console.log("Grouped animals by species:", grouped);
+        } else {
+          console.warn("No animals data received or invalid format");
+          throw new Error("No animals data available");
+        }
+      } catch (err) {
+        console.error("Error fetching animals:", err);
+        setError("Failed to load animal data");
+
+        // Fallback to default data if API fails
+        const fallbackData = [
+          {
+            description:
+              "The majestic African Lion is known as the king of the jungle. These powerful predators live in social groups called prides.",
+            type: "Lion",
+            enclosure: "African Savanna",
+            src: "https://images.unsplash.com/photo-1546182990-dffeafbe841d?w=500&h=400&fit=crop",
+            animalName: "Simba",
+            gender: "Male",
+            healthStatus: "Healthy",
+          },
+          {
+            description:
+              "African Elephants are the largest land mammals on Earth. They are known for their intelligence and strong family bonds.",
+            type: "Elephant",
+            enclosure: "Elephant Sanctuary",
+            src: "https://images.unsplash.com/photo-1564760055775-d63b17a55c44?w=500&h=400&fit=crop",
+            animalName: "Dumbo",
+            gender: "Female",
+            healthStatus: "Healthy",
+          },
+          {
+            description:
+              "Giraffes are the tallest mammals in the world. Their long necks help them reach leaves high up in trees.",
+            type: "Giraffe",
+            enclosure: "African Plains",
+            src: "https://images.unsplash.com/photo-1547036967-23d11aacaee0?w=500&h=400&fit=crop",
+            animalName: "Gerald",
+            gender: "Male",
+            healthStatus: "Healthy",
+          },
+          {
+            description:
+              "Bengal Tigers are magnificent striped cats native to India. They are excellent swimmers and powerful hunters.",
+            type: "Tiger",
+            enclosure: "Asian Forest",
+            src: "https://images.unsplash.com/photo-1605554399710-0aa8c365ca3a?w=500&h=400&fit=crop",
+            animalName: "Raja",
+            gender: "Male",
+            healthStatus: "Healthy",
+          },
+        ];
+
+        setAnimalData(fallbackData);
+        const grouped = groupAnimalsBySpecies(fallbackData);
+        setGroupedAnimals(grouped);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadAnimals();
+  }, []);
+
+  // Loading state
+  if (loading) {
+    return (
+      <Layout>
+        <section id="Hero">
+          <div className="inset-0 h-screen w-full overflow-hidden">
+            <video
+              src="/banner.mp4"
+              autoPlay
+              loop
+              muted
+              className="absolute top-0 left-0 w-full h-full object-cover"
+            />
+            <div className="relative z-10 my-50 flex flex-col justify-end-safe items-center h-1/2 text-center text-white px-4">
+              <motion.h1
+                className="text-3xl sm:text-4xl md:text-6xl font-bold mb-4"
+                initial={{ y: -50, opacity: 0 }}
+                animate={{ y: 0, opacity: 0.5 }}
+                transition={{ duration: 1 }}
+              >
+                Welcome to Wildlife Zoo!
+              </motion.h1>
+              <motion.p
+                className="text-sm sm:text-lg md:text-xl mb-6"
+                initial={{ y: 20, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ delay: 0.5, duration: 1 }}
+              >
+                Explore animals, habitats, and adventures!
+              </motion.p>
+              <motion.button
+                className="px-3 md:px-4 py-2 md:py-3 bg-green-600 text-sm md:text-inherit rounded-lg hover:bg-green-700"
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.95 }}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 1 }}
+                onClick={handleExplore}
+              >
+                Explore Now
+              </motion.button>
+            </div>
+          </div>
+        </section>
+
+        <section id="main">
+          <div className="container mx-auto overflow-hidden px-5">
+            <div className="text-center mt-20 mb-10">
+              <h1 className="text-2xl md:text-3xl font-bold mb-5">
+                The Wildlife
+              </h1>
+              <p className="text-sm md:text-base">
+                Loading amazing animals from around the world...
+              </p>
+              <div className="flex justify-center mt-8">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-600"></div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </Layout>
+    );
+  }
 
   return (
     <Layout>
@@ -111,11 +284,51 @@ function Home() {
               Discover amazing animals from around the world in their natural
               habitats
             </p>
+            {error && (
+              <p className="text-red-500 mt-2 text-sm">
+                {error} - Showing fallback data
+              </p>
+            )}
           </div>
-          <TheWildLife theWildLife={theWildLife} autoplay />
-          <TheWildLifeV2 theWildLife={theWildLife} autoplay />
-          <TheWildLife theWildLife={theWildLife} autoplay />
-          <TheWildLifeV2 theWildLife={theWildLife} autoplay />
+
+          {/* Display animals grouped by species */}
+          {Object.keys(groupedAnimals).length > 0 ? (
+            Object.entries(groupedAnimals).map(([species, animals], index) => (
+              <div key={species} className="mb-16">
+                {/* Species Section Header */}
+                <div className="text-center mb-8">
+                  <h2 className="text-xl md:text-2xl font-semibold text-gray-800 dark:text-gray-200 mb-2">
+                    {species} Collection
+                  </h2>
+                  <p className="text-sm md:text-base text-gray-600 dark:text-gray-400">
+                    {animals.length} {species}
+                    {animals.length !== 1 ? "s" : ""} in our collection
+                  </p>
+                </div>
+
+                {/* Alternate between TheWildLife and TheWildLifeV2 */}
+                {index % 2 === 0 ? (
+                  <TheWildLife
+                    theWildLife={animals}
+                    autoplay={true}
+                    key={`wildlife-${species}`}
+                  />
+                ) : (
+                  <TheWildLifeV2
+                    theWildLife={animals}
+                    autoplay={true}
+                    key={`wildlife-v2-${species}`}
+                  />
+                )}
+              </div>
+            ))
+          ) : (
+            // Fallback if no grouped animals
+            <>
+              <TheWildLife theWildLife={animalData} autoplay />
+              <TheWildLifeV2 theWildLife={animalData} autoplay />
+            </>
+          )}
         </div>
       </section>
     </Layout>
