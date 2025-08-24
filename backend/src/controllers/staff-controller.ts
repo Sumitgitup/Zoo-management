@@ -2,22 +2,6 @@ import type { Request, Response } from "express";
 import Staff from "../models/staff.model";
 
 // @desc    Create new staff
-export const createStaff = async (req: Request, res: Response) => {
-  try {
-    const { body } = res.locals.validatedData;
-    const newStaff = new Staff(body);
-    const savedStaff = await newStaff.save();
-    res.status(201).json(savedStaff);
-  } catch (error) {
-    console.error("Error creating staff:", error);
-    const errorMessage =
-      error instanceof Error ? error.message : "An unknown error occurred";
-    res.status(500).json({
-      message: "Server error while creating staff.",
-      error: errorMessage,
-    });
-  }
-};
 
 // @desc  Get all staff with filtering and pagination
 export const getStaff = async (req: Request, res: Response) => {
@@ -52,10 +36,11 @@ export const getStaff = async (req: Request, res: Response) => {
       },
     });
   } catch (error) {
-    res.status(500).json({ message: 'Server error while fetching staff', error });
+    res
+      .status(500)
+      .json({ message: "Server error while fetching staff", error });
   }
 };
-
 
 // --- GET BY ID FIX ---
 // @desc    Get a single staff member by employeeId

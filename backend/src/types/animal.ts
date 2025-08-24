@@ -12,8 +12,8 @@ export const getAnimalsSchema = z.object({
     page: z.coerce.number().int().positive().optional(),
     limit: z.coerce.number().int().positive().optional(),
     species: z.coerce.string().optional(),
-    gender: z.enum(['Male', 'Female']).optional(),
-  })
+    gender: z.enum(["Male", "Female"]).optional(),
+  }),
 });
 
 // 1. Define a new schema for the enclosure details
@@ -34,7 +34,7 @@ const animalBaseSchema = z.object({
   ),
   description: z.string().optional(),
   imageUrl: z.url().optional(),
-  arrival_date:z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Invalid date format"),
+  arrival_date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Invalid date format"),
 
   // 2. Add the enclosure schema to the animal schema (making it optional)
   enclosure: enclosureSchema.optional(),

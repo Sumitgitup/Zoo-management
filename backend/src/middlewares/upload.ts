@@ -23,9 +23,9 @@ export function uploadFile(fieldName: string) {
           )
         );
       }
-      if (!req.file) {
-        return next(new BadRequestError("No file present"));
-      }
+      // if (!req.file) {
+      //   return next(new BadRequestError("No file present"));
+      // }
       next();
     });
   };
