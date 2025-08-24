@@ -71,8 +71,8 @@ const PricingComp = ({
       id: "adult-regular",
       name: "Adult",
       description: "Regular Only",
-      monthlyPrice: "49",
-      yearlyPrice: "359",
+      monthlyPrice: "19",
+      yearlyPrice: "179",
       features: [
         { text: "Unlimited team members" },
         { text: "Advanced components" },
@@ -88,8 +88,8 @@ const PricingComp = ({
       id: "adult-safari",
       name: "Adult",
       description: "Regular & Safari",
-      monthlyPrice: "19",
-      yearlyPrice: "179",
+      monthlyPrice: "49",
+      yearlyPrice: "359",
       features: [
         { text: "Unlimited team members" },
         { text: "Advanced components" },
