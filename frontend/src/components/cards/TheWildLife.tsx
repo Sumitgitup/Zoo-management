@@ -40,7 +40,6 @@ export const TheWildLife = ({
   const isCardsInView = useInView(cardsRef, { once: true, margin: "-50px" });
   const isTextInView = useInView(textRef, { once: true, margin: "-50px" });
 
-  // Transform values based on scroll
   const y = useTransform(scrollYProgress, [0, 1], [50, -50]);
   const opacity = useTransform(
     scrollYProgress,

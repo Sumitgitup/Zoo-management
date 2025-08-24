@@ -1,4 +1,3 @@
-// pages/Home.tsx
 import { motion } from "framer-motion";
 import Layout from "@/layouts/Layout";
 import { TheWildLife } from "@/components/cards/TheWildLife";
@@ -6,7 +5,6 @@ import { TheWildLifeV2 } from "@/components/cards/TheWildLifeV2";
 import { useEffect, useState } from "react";
 import { fetchAnimals } from "@/api/animalsApi";
 
-// Define the Animal interface based on your API response
 interface Animal {
   _id: string;
   name: string;
@@ -24,7 +22,6 @@ interface Animal {
   };
 }
 
-// Transform API animal data to match your component's expected format
 const transformAnimalData = (animals: Animal[]) => {
   return animals.map((animal) => ({
     description:
@@ -46,7 +43,6 @@ const transformAnimalData = (animals: Animal[]) => {
   }));
 };
 
-// Group animals by species
 const groupAnimalsBySpecies = (animals: any[]) => {
   const grouped = animals.reduce((acc, animal) => {
     const species = animal.type;
@@ -85,21 +81,17 @@ function Home() {
         setLoading(true);
         setError(null);
 
-        // Fetch animals with optional query parameters
         const animals = await fetchAnimals({
-          limit: 20, // Increased limit to get more variety
+          limit: 20,
           page: 1,
         });
 
         console.log("Fetched animals:", animals);
 
-        // Check if animals is an array and has data
         if (Array.isArray(animals) && animals.length > 0) {
-          // Transform the API data to match your component format
           const transformedData = transformAnimalData(animals);
           setAnimalData(transformedData);
 
-          // Group animals by species
           const grouped = groupAnimalsBySpecies(transformedData);
           setGroupedAnimals(grouped);
 
@@ -167,7 +159,6 @@ function Home() {
     loadAnimals();
   }, []);
 
-  // Loading state
   if (loading) {
     return (
       <Layout>
@@ -291,11 +282,9 @@ function Home() {
             )}
           </div>
 
-          {/* Display animals grouped by species */}
           {Object.keys(groupedAnimals).length > 0 ? (
             Object.entries(groupedAnimals).map(([species, animals], index) => (
               <div key={species} className="mb-16">
-                {/* Species Section Header */}
                 <div className="text-center mb-8">
                   <h2 className="text-xl md:text-2xl font-semibold text-gray-800 dark:text-gray-200 mb-2">
                     {species} Collection
@@ -306,7 +295,6 @@ function Home() {
                   </p>
                 </div>
 
-                {/* Alternate between TheWildLife and TheWildLifeV2 */}
                 {index % 2 === 0 ? (
                   <TheWildLife
                     theWildLife={animals}
@@ -323,7 +311,6 @@ function Home() {
               </div>
             ))
           ) : (
-            // Fallback if no grouped animals
             <>
               <TheWildLife theWildLife={animalData} autoplay />
               <TheWildLifeV2 theWildLife={animalData} autoplay />

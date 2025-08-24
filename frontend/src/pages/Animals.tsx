@@ -3,7 +3,6 @@ import Layout from "@/layouts/Layout";
 import { useAnimals } from "@/hooks/useAnimals";
 import { useState } from "react";
 
-// Animal interface based on your API response
 interface Animal {
   _id: string;
   name: string;
@@ -25,7 +24,6 @@ function Animals() {
   const [selectedSpecies, setSelectedSpecies] = useState<string>("");
   const [selectedHealthStatus, setSelectedHealthStatus] = useState<string>("");
 
-  // Fetch animals data with optional filters
   const {
     data: animalsResponse,
     isLoading,
@@ -37,7 +35,6 @@ function Animals() {
     ...(selectedHealthStatus && { health_status: selectedHealthStatus }),
   });
 
-  // Extract unique species and health statuses for filters
   const getUniqueValues = (
     animals: Animal[],
     field: keyof Animal
@@ -133,7 +130,6 @@ function Animals() {
             </div>
           </div>
 
-          {/* Filter Section */}
           <div className="flex flex-wrap justify-center gap-4 mb-10">
             <div className="flex flex-col">
               <label className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">

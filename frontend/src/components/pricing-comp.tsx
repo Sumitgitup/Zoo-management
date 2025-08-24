@@ -1,6 +1,5 @@
 "use client";
 
-import { CircleCheck } from "lucide-react";
 import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
@@ -37,7 +36,7 @@ interface Pricing2Props {
 const PricingComp = ({
   plans = [
     {
-      id: "child",
+      id: "child-regular",
       name: "Child",
       description: "Regular Only",
       monthlyPrice: "19",
@@ -53,7 +52,7 @@ const PricingComp = ({
       },
     },
     {
-      id: "child",
+      id: "child-safari",
       name: "Child",
       description: "Regular & Safari",
       monthlyPrice: "49",
@@ -69,7 +68,7 @@ const PricingComp = ({
       },
     },
     {
-      id: "adult",
+      id: "adult-regular",
       name: "Adult",
       description: "Regular Only",
       monthlyPrice: "49",
@@ -86,7 +85,7 @@ const PricingComp = ({
     },
 
     {
-      id: "adult",
+      id: "adult-safari",
       name: "Adult",
       description: "Regular & Safari",
       monthlyPrice: "19",
@@ -121,7 +120,7 @@ const PricingComp = ({
             />
             foreigners
           </div>
-          <div className="flex flex-col items-stretch gap-6 md:flex-row">
+          <div className="grid md:grid-cols-2 items-stretch gap-6 lg:gap-30 mt-20 md:flex-row">
             {plans.map((plan) => (
               <Card
                 key={plan.id}

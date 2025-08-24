@@ -149,7 +149,6 @@ export const TheWildLifeV2 = ({
               </AnimatePresence>
             </div>
 
-            {/* Fixed position controls */}
             <div className="flex items-center gap-4 mt-8 justify-center md:justify-start">
               <div className="flex space-x-2">
                 {theWildLife.map((_, index) => (

@@ -30,10 +30,7 @@ function Header() {
     { label: "Pricing", path: "/pricing" },
   ];
 
-  const extraLinks = [
-    { label: "Admin Login", path: "/admin" },
-    { label: "Enquiries", path: "/enquiries" },
-  ];
+  const extraLinks = [{ label: "Admin Login", path: "/admin/dashboard" }];
 
   const drawerLinks = isMobile ? [...mainLinks, ...extraLinks] : extraLinks;
 
@@ -42,20 +39,20 @@ function Header() {
   };
 
   return (
-    <header className="fixed top-0 right-0 left-0 z-100 bg-white font-[Poppins,sans-serif]">
-      <nav className="container mx-auto 2xl:px-20 px-5 py-5 relative border-b shadow-2xl">
+    <header className="fixed top-0 right-0 left-0 z-100 border-b shadow-2xl bg-white font-[Poppins,sans-serif]">
+      <nav className="container mx-auto 2xl:px-20 px-5 py-5  ">
         <div className="flex justify-between items-center">
-          <Link to="/" className="font-bold text-lg lg:text-2xl">
-            ZooLogo
+          <Link to="/" className="font-bold text-lg lg:text-xl text-green-500">
+            GreenHaven
           </Link>
 
-          <ul className="hidden sm:flex gap-10 md:gap-20 lg:text-lg">
+          <ul className="hidden sm:flex gap-10 md:gap-24 lg:text-lg">
             {mainLinks.map((link) => (
               <li key={link.label} className="relative group">
                 <Link
                   to={link.path}
                   className={`relative pb-1 ${
-                    location.pathname === link.path ? "text-green-600" : ""
+                    location.pathname === link.path ? "text-green-900" : ""
                   }`}
                 >
                   {link.label}

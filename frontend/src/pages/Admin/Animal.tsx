@@ -10,9 +10,8 @@ import {
   AlertTriangle,
   Loader2,
 } from "lucide-react";
-import axios, { type AxiosResponse } from "axios";
+import axios from "axios";
 
-// Types
 interface Enclosure {
   id: string;
   name: string;

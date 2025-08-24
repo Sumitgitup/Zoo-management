@@ -1,4 +1,4 @@
-import { type LucideIcon, UserCog, Settings, Bell, LogOut } from "lucide-react";
+import { type LucideIcon, UserCog, Settings, LogOut } from "lucide-react";
 
 type AdminMenuItem = {
   title: string;

@@ -38,18 +38,18 @@ export function EnclosureCard({ enclosureData, routeLink }: EnclosureProps) {
           />
         </CardItem>
         <div className="flex justify-center items-center mt-10">
-          <button
+          <div
             onClick={() => navigate(`/enclosure/${routeLink}`)}
             className="w-full cursor-pointer"
           >
             <CardItem
               translateZ={20}
-              as="button"
+              as="div"
               className="px-4 py-2 rounded-xl bg-black dark:bg-white dark:text-black text-white text-xs font-bold cursor-pointer"
             >
               Check Out
             </CardItem>
-          </button>
+          </div>
         </div>
       </CardBody>
     </CardContainer>

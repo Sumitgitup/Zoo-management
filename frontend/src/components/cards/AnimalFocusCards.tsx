@@ -1,7 +1,6 @@
 import { FocusCardAnimals } from "../ui/focus-card-animal";
 import { useMemo } from "react";
 
-// Animal interface based on your API response
 interface Animal {
   _id: string;
   name: string;
@@ -19,7 +18,6 @@ interface Animal {
   };
 }
 
-// Transform API data to match the card format
 const transformAnimalsToCards = (animals: Animal[]) => {
   return animals.map((animal) => ({
     id: animal._id,
@@ -47,7 +45,6 @@ const transformAnimalsToCards = (animals: Animal[]) => {
 };
 
 export function AnimalFocusCards({ animals = [] }: { animals: Animal[] }) {
-  // Transform animals data to card format
   const cards = useMemo(() => {
     if (!animals || animals.length === 0) {
       // Fallback data if no animals provided
@@ -71,7 +68,6 @@ export function AnimalFocusCards({ animals = [] }: { animals: Animal[] }) {
     return transformAnimalsToCards(animals);
   }, [animals]);
 
-  // Group animals by species for better organization
   const groupedCards = useMemo(() => {
     const grouped = cards.reduce((acc, card) => {
       const species = card.species;
@@ -85,13 +81,11 @@ export function AnimalFocusCards({ animals = [] }: { animals: Animal[] }) {
     return grouped;
   }, [cards]);
 
-  // If we have multiple species, render them in groups
   if (Object.keys(groupedCards).length > 1 && animals.length > 6) {
     return (
       <div className="space-y-16">
         {Object.entries(groupedCards).map(([species, speciesCards]) => (
           <div key={species} className="space-y-8">
-            {/* Species Header */}
             <div className="text-center">
               <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-2">
                 {species}
@@ -102,7 +96,6 @@ export function AnimalFocusCards({ animals = [] }: { animals: Animal[] }) {
               </p>
             </div>
 
-            {/* Species Cards */}
             <FocusCardAnimals cards={speciesCards} />
           </div>
         ))}
@@ -110,6 +103,5 @@ export function AnimalFocusCards({ animals = [] }: { animals: Animal[] }) {
     );
   }
 
-  // Default single group rendering
   return <FocusCardAnimals cards={cards} />;
 }
