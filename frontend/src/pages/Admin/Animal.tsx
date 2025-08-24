@@ -397,9 +397,15 @@ const AnimalAdminDashboard: React.FC = () => {
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="mb-6">
-          <h1 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-2">
-            Animal Dashboard
-          </h1>
+          <p
+            className="text-lg lg:text-xl font-bold text-center text-gray-900 mb-2 cursor-pointer hover:text-blue-600 transition-colors"
+            onClick={() => (window.location.href = "/admin/dashboard")}
+          >
+            {`⬅️ Back To Dashboard`}
+          </p>
+          <h2 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-2">
+            Staff Dashboard
+          </h2>
           <p className="text-gray-600">Manage your zoo's animal collection</p>
         </div>
 

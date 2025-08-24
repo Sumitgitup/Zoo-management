@@ -440,7 +440,12 @@ const TicketDashboard: React.FC = () => {
       />
 
       <div className="max-w-7xl mx-auto">
-        {/* HEADER */}
+        <p
+          className="text-lg lg:text-xl font-bold text-center text-gray-900 mb-4 cursor-pointer hover:text-blue-600 transition-colors"
+          onClick={() => (window.location.href = "/admin/dashboard")}
+        >
+          {`⬅️ Back To Dashboard`}
+        </p>
         <div className="bg-white rounded-xl shadow-sm p-6 mb-6 border border-gray-100">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
             <div className="flex items-center gap-4">

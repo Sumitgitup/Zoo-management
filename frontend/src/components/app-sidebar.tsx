@@ -82,20 +82,9 @@ const data = {
       icon: CreditCard,
       items: [
         {
-          title: "For National",
+          title: "Coming soon...",
           url: "#",
-          items: [
-            { title: "Add Ticket", url: "#" },
-            { title: "Manage Ticket", url: "#" },
-          ],
-        },
-        {
-          title: "For International",
-          url: "#",
-          items: [
-            { title: "Add Ticket", url: "#" },
-            { title: "Manage Ticket", url: "#" },
-          ],
+          items: [{ title: "Comming Soon", url: "#" }],
         },
       ],
     },
@@ -104,11 +93,7 @@ const data = {
       title: "Reports",
       url: "#",
       icon: BarChart3,
-      items: [
-        { title: "Sales Reports", url: "#" },
-        { title: "Staff Details", url: "#" },
-        { title: "Animal Details", url: "#" },
-      ],
+      items: [{ title: "Comming soon", url: "#" }],
     },
   ],
 };
