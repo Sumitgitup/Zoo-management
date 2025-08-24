@@ -1,6 +1,7 @@
 
 import { Schema, model } from 'mongoose';
 import type { IAnimal } from '../types/animal';
+import { date, string } from 'zod';
 
 const animalSchema = new Schema<IAnimal>({
   name: { type: String, required: true },

@@ -24,7 +24,7 @@ const staffSchema = new Schema<IStaff>(
     department: {
       type: String,
       enum: [
-        "*",
+
         "Medical",
         "Operations",
         "Adoption",
