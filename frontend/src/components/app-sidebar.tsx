@@ -1,6 +1,14 @@
-import * as React from "react"
-import { LayoutDashboard, PawPrint, Ticket, CreditCard, Users, BarChart3,UserCog  } from "lucide-react";
-import { NavMain } from "@/components/nav-main"
+import * as React from "react";
+import {
+  LayoutDashboard,
+  PawPrint,
+  Ticket,
+  CreditCard,
+  Users,
+  BarChart3,
+  UserCog,
+} from "lucide-react";
+import { NavMain } from "@/components/nav-main";
 import {
   Sidebar,
   SidebarContent,
@@ -8,10 +16,10 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-} from "@/components/ui/sidebar"
+} from "@/components/ui/sidebar";
+import { Link } from "react-router-dom";
 
 const data = {
-
   navMain: [
     {
       title: "Dashboard",
@@ -21,35 +29,51 @@ const data = {
     },
     {
       title: "Animals Details",
-      url: "#",
+      url: "/admin/dashboard/animal",
       icon: PawPrint,
       items: [
-        { title: "Mammals", url: "#" },
-        { title: "Reptiles", url: "#" },
-        { title: "Birds", url: "#" },
+        // { title: "Mammals", url: "#" },
+        // { title: "Reptiles", url: "#" },
+        // { title: "Birds", url: "#" },
+      ],
+    },
+    {
+      title: "Staff Details",
+      url: "#",
+      icon: Users,
+      items: [
+        // {
+        //   title: "Zone",
+        //   url: "#",
+        //   items: [
+        //     { title: "Safari Zone", url: "#" },
+        //     { title: "Bird Sanctuary", url: "#" },
+        //     { title: "Reptile House", url: "#" },
+        //   ],
+        // },
       ],
     },
     {
       title: "Tickets Setup",
-      url: "#",
+      url: "/admin/dashboard/ticket",
       icon: Ticket,
       items: [
-        {
-          title: "National",
-          url: "#",
-          items: [
-            { title: "Tickets for Adults", url: "#" },
-            { title: "Tickets for Childs", url: "#" },
-          ],
-        },
-        {
-          title: "International",
-          url: "#",
-          items: [
-            { title: "Tickets for Adults", url: "#" },
-            { title: "Tickets for Childs", url: "#" },
-          ],
-        },
+        // {
+        //   title: "National",
+        //   url: "#",
+        //   items: [
+        //     { title: "Tickets for Adults", url: "#" },
+        //     { title: "Tickets for Childs", url: "#" },
+        //   ],
+        // },
+        // {
+        //   title: "International",
+        //   url: "#",
+        //   items: [
+        //     { title: "Tickets for Adults", url: "#" },
+        //     { title: "Tickets for Childs", url: "#" },
+        //   ],
+        // },
       ],
     },
     {
@@ -75,22 +99,7 @@ const data = {
         },
       ],
     },
-    {
-      title: "Staff Details",
-      url: "#",
-      icon: Users,
-      items: [
-        {
-          title: "Zone",
-          url: "#",
-          items: [
-            { title: "Safari Zone", url: "#" },
-            { title: "Bird Sanctuary", url: "#" },
-            { title: "Reptile House", url: "#" },
-          ],
-        },
-      ],
-    },
+
     {
       title: "Reports",
       url: "#",
@@ -114,22 +123,22 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton size="lg" asChild>
-              <a href="#">
+              <Link to={"#"}>
                 <div className="bg-green-500 text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg">
-                  <UserCog  className="size-4 " />
+                  <UserCog className="size-4 " />
                 </div>
                 <div className="grid flex-1 text-left text-sm leading-tight">
                   <span className="truncate font-medium">Admin</span>
                   <span className="truncate text-xs">Dashboard</span>
                 </div>
-              </a>
+              </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>
-      <SidebarContent className="" >
+      <SidebarContent className="">
         <NavMain items={data.navMain} />
       </SidebarContent>
     </Sidebar>
-  )
+  );
 }

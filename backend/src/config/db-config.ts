@@ -6,7 +6,7 @@ const connectDB = async () => {
   try {
     await mongoose.connect(serverConfig.DB_URL!);
     console.log("MongoDB connected successfully");
-    await seedAdminUser();
+    // await seedAdminUser();
   } catch (error) {
     console.error("MongoDB connection error", error);
   }
