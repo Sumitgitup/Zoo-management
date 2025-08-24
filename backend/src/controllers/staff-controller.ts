@@ -2,75 +2,86 @@ import type { Request, Response } from "express";
 import Staff from "../models/staff.model";
 
 // @desc    Create new staff
+// @route   POST /api/v1/staffs
+export const createStaff = async (req: Request, res: Response) => {
+  try {
+    const newStaff = new Staff(req.body);
+    const savedStaff = await newStaff.save();
+    res.status(201).json({
+        success: true,
+        data: savedStaff 
+    });
+  } catch (error) {
+    res.status(500).json({ 
+        success: false,
+        message: "Server error while creating staff", 
+        error 
+    });
+  }
+};
 
 // @desc  Get all staff with filtering and pagination
+// @route   GET /api/v1/staffs
 export const getStaff = async (req: Request, res: Response) => {
   try {
-    // Get validated query parameters
-    const { query } = res.locals.validatedData;
-    const { page = 1, limit = 10, role, department } = query;
+    const { page = 1, limit = 10, role, department } = req.query;
 
-    // Build the filter object
     const filter: any = {};
-    if (role) {
-      filter.role = role;
-    }
-    if (department) {
-      filter.department = department;
-    }
+    if (role) filter.role = role;
+    if (department) filter.department = department;
 
-    const skip = (page - 1) * limit;
+    const skip = (Number(page) - 1) * Number(limit);
 
     const [staff, total] = await Promise.all([
-      Staff.find(filter).skip(skip).limit(limit),
+      Staff.find(filter).skip(skip).limit(Number(limit)),
       Staff.countDocuments(filter),
     ]);
 
     res.status(200).json({
-      data: staff,
-      pagination: {
-        total,
-        page,
-        limit,
-        totalPages: Math.ceil(total / limit),
-      },
+      success: true,
+      // The frontend expects the data nested this way
+      data: {
+        staffs: staff,
+        pagination: {
+          total,
+          page: Number(page),
+          limit: Number(limit),
+          totalPages: Math.ceil(total / Number(limit)),
+        },
+      }
     });
   } catch (error) {
-    res
-      .status(500)
-      .json({ message: "Server error while fetching staff", error });
+    res.status(500).json({ 
+        success: false,
+        message: "Server error while fetching staff", 
+        error 
+    });
   }
 };
 
-// --- GET BY ID FIX ---
-// @desc    Get a single staff member by employeeId
+// @desc    Get a single staff member by ID
+// @route   GET /api/v1/staffs/:id
 export const getStaffById = async (req: Request, res: Response) => {
   try {
-    // Use findOne to search by the employeeId field
-    const staffMember = await Staff.findOne({ employeeId: req.params.id });
+    // Use findById for the default MongoDB _id
+    const staffMember = await Staff.findById(req.params.id);
     if (!staffMember) {
       return res.status(404).json({ message: "Staff member not found" });
     }
     res.status(200).json(staffMember);
   } catch (error) {
-    res
-      .status(500)
-      .json({ message: "Server error while fetching staff member", error });
+    res.status(500).json({ message: "Server error while fetching staff member", error });
   }
 };
 
-// --- UPDATE FIX ---
-// @desc    Update a staff member by employeeId
+// @desc    Update a staff member by ID
+// @route   PUT /api/v1/staffs/:id
 export const updateStaff = async (req: Request, res: Response) => {
   try {
-    const { params, body } = res.locals.validatedData;
-    const { id: employeeId } = params;
-
-    // Use findOneAndUpdate to search by the employeeId field
-    const updatedStaff = await Staff.findOneAndUpdate(
-      { employeeId: employeeId }, // The search query
-      body, // The update data
-      { new: true } // Options: return the updated document
+    const updatedStaff = await Staff.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      { new: true, runValidators: true } // Return the updated doc and run schema validation
     );
 
     if (!updatedStaff) {
@@ -78,31 +89,20 @@ export const updateStaff = async (req: Request, res: Response) => {
     }
     res.status(200).json(updatedStaff);
   } catch (error) {
-    console.error("Error updating staff:", error);
-    const errorMessage =
-      error instanceof Error ? error.message : "An unknown error occurred";
-    res.status(500).json({
-      message: "Server error while updating staff.",
-      error: errorMessage,
-    });
+    res.status(500).json({ message: "Server error while updating staff.", error });
   }
 };
 
-// --- DELETE FIX ---
-// @desc    Delete a staff member by employeeId
+// @desc    Delete a staff member by ID
+// @route   DELETE /api/v1/staffs/:id
 export const deleteStaff = async (req: Request, res: Response) => {
   try {
-    // Use findOneAndDelete to search by the employeeId field
-    const deletedStaff = await Staff.findOneAndDelete({
-      employeeId: req.params.id,
-    });
+    const deletedStaff = await Staff.findByIdAndDelete(req.params.id);
     if (!deletedStaff) {
       return res.status(404).json({ message: "Staff member not found" });
     }
     res.status(200).json({ message: "Staff member deleted successfully" });
   } catch (error) {
-    res
-      .status(500)
-      .json({ message: "Server error while deleting staff", error });
+    res.status(500).json({ message: "Server error while deleting staff", error });
   }
 };

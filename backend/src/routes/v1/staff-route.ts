@@ -10,7 +10,9 @@ import { getStaffSchema, updateStaffSchema } from "../../types/staff";
 
 const router = Router();
 
-router.route("/").get(validateResource(getStaffSchema), getStaff);
+router.route("/")
+.get(validateResource(getStaffSchema), getStaff)
+
 
 router
   .route("/:id")

@@ -2,49 +2,46 @@ import { Schema, model } from "mongoose";
 import type { IStaff } from "../types/staff";
 import bcrypt from "bcrypt";
 
-// The Schema corresponding to the IStaff interface
+// The Schema corresponding to the IStaff interface, with all fields made optional
 const staffSchema = new Schema<IStaff>(
   {
-    employeeId: { type: String, required: true, unique: true },
-    firstName: { type: String, required: true },
-    lastName: { type: String, required: true },
-    email: { type: String, required: true, unique: true },
+    // employeeId is still unique, but not required to be provided for every operation.
+    employeeId: { type: String, unique: true },
+    firstName: { type: String },
+    lastName: { type: String },
+    // email is still unique, but not required.
+    email: { type: String, unique: true },
     password: {
       type: String,
-      required: true,
-      minlength: 6,
       select: false, // Don't include password in queries by default
     },
-    phone: { type: String, required: true },
+    phone: { type: String },
     role: {
       type: String,
       enum: ["Admin", "Veterinarian", "Caretaker", "Volunteer", "Receptionist"],
-      required: true,
     },
     department: {
       type: String,
       enum: [
-
         "Medical",
         "Operations",
         "Adoption",
         "Administration",
         "Maintenance",
       ],
-      required: true,
     },
     isActive: { type: Boolean, default: true },
-    hireDate: { type: Date, required: true },
+    hireDate: { type: Date },
     permissions: [{ type: [String] }],
     shift: {
-      startTime: { type: String, required: true },
-      endTime: { type: String, required: true },
-      workDays: { type: [String], required: true },
+      startTime: { type: String },
+      endTime: { type: String },
+      workDays: { type: [String] },
     },
     emergencyContact: {
-      name: { type: String, required: true },
-      phone: { type: String, required: true },
-      relationship: { type: String, required: true },
+      name: { type: String },
+      phone: { type: String },
+      relationship: { type: String },
     },
     refreshToken: {
       type: String,
@@ -64,7 +61,10 @@ staffSchema.pre("save", async function (next) {
     this.password = await bcrypt.hash(this.password, salt);
     next();
   } catch (error) {
-    throw error;
+    // Mongoose pre-hooks expect the error to be passed to next()
+    if (error instanceof Error) {
+        next(error);
+    }
   }
 });
 
