@@ -9,6 +9,7 @@ import Dashboard from "./pages/Admin/Dashboard";
 import Pricing from "./pages/Pricing";
 import Animals from "./pages/Animals";
 import TicketDashboard from "./pages/Admin/Tickets";
+import StaffAdminDashboard from "./pages/Admin/Staff";
 
 const AppRoutes = () => {
   return (
@@ -25,6 +26,10 @@ const AppRoutes = () => {
       <Route
         path="/admin/dashboard/animal"
         element={<AnimalAdminDashboard />}
+      />
+      <Route
+        path="/admin/dashboard/staff"
+        element={<StaffAdminDashboard />}
       />
       {/* <Route path="*" element={<Error_page />} /> */}
     </Routes>
