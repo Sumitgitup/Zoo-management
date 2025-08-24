@@ -39,7 +39,7 @@ const data = {
     },
     {
       title: "Staff Details",
-      url: "#",
+      url: "/admin/dashboard/staff",
       icon: Users,
       items: [
         // {
